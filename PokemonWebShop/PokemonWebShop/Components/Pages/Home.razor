@@ -1,0 +1,37 @@
+﻿@page "/"
+@rendermode RenderMode.InteractiveServer
+@inject ILocalStorageService localStorage
+
+<PageTitle>Products</PageTitle>
+
+<h1>Products</h1>
+
+<div class="d-flex justify-content-start flex-wrap items-container col-8">
+    @foreach (var item in PokemonWebShop.Data.CollectionData._items)
+    {
+        <div class="m-2">
+            <ItemCard Item="item" OnAddToCartCallback="() => AddToCart(item)"></ItemCard>
+        </div>
+    }
+</div>
+
+@code {
+    public List<Item> CartList { get; set; } = new List<Item>();
+
+    public async Task AddToCart(Item item)
+    {
+        CartList.Add(item);
+        await localStorage.SetItemAsync<List<Item>>("ItemCart", CartList);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var CartData = await localStorage.GetItemAsync<List<Item>>("ItemCart");
+            if (CartData is not null)
+                CartList = CartData;
+            StateHasChanged();    
+        }
+    }
+}

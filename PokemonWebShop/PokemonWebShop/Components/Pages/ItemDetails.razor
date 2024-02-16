@@ -1,0 +1,54 @@
+﻿@page "/itemdetails/{itemId:int}"
+@rendermode RenderMode.InteractiveServer
+@inject ILocalStorageService localStorage
+
+@if (item is null)
+{
+    <p>No item found...</p>
+}
+else
+{
+    <img class="card-img-top detail-img" src="@($"/images/{ItemId}.jpg")" alt="Card image cap">
+    <br />
+    <br />
+    <h3>ItemDetails</h3>
+    <p>Id: @ItemId</p>
+    <p>Name: @item.Name</p>
+    <p>Price: @item.Price</p>
+    <p>Stock: @item.Stock</p>
+    <p>Description: @item.Description</p>
+    <button class="btn btn-outline-primary" @onclick="() => AddToCart(item)">
+        Add To Cart
+    </button>
+
+}
+
+
+@code {
+    [Parameter]
+    public int ItemId { get; set; }
+
+    Item? item;
+    public List<Item> CartList { get; set; } = new List<Item>();
+
+
+
+    protected override void OnInitialized()
+    {
+        item = CollectionData._items.FirstOrDefault(i => i.Id == ItemId);
+    }
+ 
+    public async Task AddToCart(Item item)
+    {
+        CartList.Add(item);
+        await localStorage.SetItemAsync<List<Item>>("ItemCart", CartList);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        var CartData = await localStorage.GetItemAsync<List<Item>>("ItemCart");
+        if (CartData is not null)
+            CartList = CartData;
+        StateHasChanged();
+    }
+}

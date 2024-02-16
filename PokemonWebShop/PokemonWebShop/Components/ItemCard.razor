@@ -1,0 +1,26 @@
+﻿@rendermode RenderMode.InteractiveServer
+
+<div class="card" style="width: 18rem;">
+    <img class="card-img-top item-image" src="@($"/images/{Item.Id}.jpg")" alt="Card image cap">
+    <div class="card-body">
+        <h5 class="card-title">@Item.Name</h5>
+        <p class="card-text">Price: @Item.Price</p>
+        <p class="card-text">In Stock: @Item.Stock</p>
+        <div class="d-flex justify-content-around">
+            <a href="@($"/itemdetails/{Item.Id}")" class="btn btn-outline-primary">Details</a>
+            <button class="btn btn-outline-primary" @onclick="OnAddToCartCallback">
+                Add To Cart
+            </button>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+    public Item Item { get; set; }
+
+    [Parameter]
+    public EventCallback OnAddToCartCallback { get; set; }
+
+}

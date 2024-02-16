@@ -1,0 +1,74 @@
+﻿@page "/checkout"
+@rendermode RenderMode.InteractiveServer
+@inject ILocalStorageService localStorage
+@inject NavigationManager NavigationManager
+
+<h3>Checkout</h3>
+
+
+<table class="table table-light">
+    <thead class="table-primary">
+        <tr>
+            <th>Item</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in CartList)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>
+                    <button class="btn btn-outline-primary" @onclick="() => OnRemoveClick(item)">
+                        Remove
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+
+<EditForm Model="cart" OnSubmit="HandleSubmit" FormName="CartForm">
+    <label>Name</label>
+    <InputText @bind-Value="cart.Name"></InputText>
+    <label>Adress</label>
+    <InputText @bind-Value="cart.Adress"></InputText>
+    <button type="submit" class="btn btn-primary" @onclick="HandleSubmit">Submit</button>
+</EditForm>
+
+
+@code {
+    // När vi trycker på Submit kommer värdena sparas i cart här nere
+    [SupplyParameterFromForm]
+    public Cart cart { get; set; } = new Cart();
+
+    public List<Item> CartList { get; set; } = new List<Item>();
+
+    // [Inject] public NavigationManager NavigationManager { get; set; } = default!;
+    public async Task HandleSubmit()
+    {
+        await localStorage.SetItemAsync<List<Item>>("ItemCart", CartList);
+        await localStorage.SetItemAsync<Cart>("MyCart", cart);
+        NavigationManager.NavigateTo("/exit");
+    }
+    public async Task OnRemoveClick(Item item)
+    {
+        CartList.Remove(item);
+        await localStorage.SetItemAsync<List<Item>>("ItemCart", CartList);
+        StateHasChanged();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var CartData = await localStorage.GetItemAsync<List<Item>>("ItemCart");
+            if (CartData is not null)
+                CartList = CartData;
+            StateHasChanged();           
+        }
+    }
+
+
+}

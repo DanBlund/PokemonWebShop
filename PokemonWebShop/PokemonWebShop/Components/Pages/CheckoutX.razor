@@ -1,0 +1,82 @@
+﻿@page "/checkoutX"
+@rendermode RenderMode.InteractiveServer
+@inject ILocalStorageService localStorage
+@* @inject NavigationManager NavigationManager *@
+
+<h3>Checkout</h3>
+
+<table class="table table-light">
+    <thead class="table-primary">
+        <tr>
+            <th>Item</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in CartList)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>
+                    <button class="btn btn-outline-primary" @onclick="() => OnRemoveClick(item)">
+                        Remove
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<form>
+    <div class="form-group">
+        <label for="exampleInputEmail1">Name</label>
+        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Name" @bind="name">
+    </div>
+    <br />
+    <div class="form-group">
+        <label for="exampleInputPassword1">Adress</label>
+        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Adress" @bind="adress">
+        <small id="adressHelp" class="form-text text-muted">Street name please</small>
+    </div>
+    <br />
+    <button class="btn btn-primary" @onclick="PlaceOrder">Submit</button>
+</form>
+
+
+@code {
+    public List<Item> CartList { get; set; } = new List<Item>();
+    public string name = "";
+    public string adress = "";
+
+    public async Task OnRemoveClick(Item item)
+    {
+        CartList.Remove(item);
+        await localStorage.SetItemAsync<List<Item>>("ItemCart", CartList);
+        StateHasChanged();
+    }
+
+    [Inject] public NavigationManager NavigationManager { get; set; } = default!;
+    public async Task PlaceOrder()
+    {
+        // await localStorage.SetItemAsync<List<Item>>("ItemCart", CartList);
+        await localStorage.SetItemAsync<string>("nameString", name);
+        await localStorage.SetItemAsync<string>("adresString", adress);
+        // NavigationManager.NavigateTo("/exit");
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        var CartData = await localStorage.GetItemAsync<List<Item>>("ItemCart");
+        if (CartData is not null)
+            CartList = CartData;
+        StateHasChanged();
+    }
+
+    // protected override async Task OnInitializedAsync()
+    // {
+    //     var CartData = await localStorage.GetItemAsync<List<Item>>("ItemCart");
+    //     if (CartData is not null)
+    //         CartList = CartData;
+    // }
+
+}

@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PokemonWebShop", "PokemonWebShop\PokemonWebShop\PokemonWebShop.csproj", "{9254F877-7150-444F-8103-90A17DF7F9AA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PokemonWebShop.Client", "PokemonWebShop\PokemonWebShop.Client\PokemonWebShop.Client.csproj", "{465293ED-FFDC-4BC2-BB28-AF6AC88854E2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9254F877-7150-444F-8103-90A17DF7F9AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9254F877-7150-444F-8103-90A17DF7F9AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9254F877-7150-444F-8103-90A17DF7F9AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9254F877-7150-444F-8103-90A17DF7F9AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{465293ED-FFDC-4BC2-BB28-AF6AC88854E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{465293ED-FFDC-4BC2-BB28-AF6AC88854E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{465293ED-FFDC-4BC2-BB28-AF6AC88854E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{465293ED-FFDC-4BC2-BB28-AF6AC88854E2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {70812B63-1E6F-4EC3-848E-71E04BC8808D}
+	EndGlobalSection
+EndGlobal
